@@ -2,21 +2,22 @@ package main
 
 import (
     "time"
+	"github.com/jinzhu/gorm"
 )
 
 type TeamPlan struct {
-	ID   string `json:"id"`
+    gorm.Model
 	Name string `json:"name"`
 }
 
 type Team struct {
-	ID   string   `json:"id"`
-	Plan TeamPlan `json:"plan"`
+    gorm.Model
+    Plan TeamPlan `gorm:"foreignKeyPlanID" json:"plan"`
 	Name string   `json:"name"`
 }
 
 type User struct {
-	ID         string `json:"id"`
+    gorm.Model
 	Name       string `json:"name"`
 	ShortName  string `json:"shortName"`
 	FacebookID string `json:"facebookId"`
@@ -25,13 +26,13 @@ type User struct {
 }
 
 type UserTeam struct {
-	ID   string `json:"id"`
+    gorm.Model
 	Team Team   `json:"team"`
 	User User   `json:"user"`
 }
 
 type Shift struct {
-	ID        string    `json:"id"`
+    gorm.Model
 	User      User      `json:"user"`
 	StartTime time.Time `json:"startTime"`
 	EndTime   time.Time `json:"endTime"`
@@ -39,7 +40,7 @@ type Shift struct {
 }
 
 type Day struct {
-	ID     string    `json:"id"`
+    gorm.Model
 	Date   time.Time `json:"date"`
 	Shifts []Shift   `json:"shifts"`
 }

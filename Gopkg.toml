@@ -1,5 +1,5 @@
 [[constraint]]
   # Required: the root import path of the project being constrained.
-  name = "github.com/rthor/see-my-shifts-go-api"
+  name = "github.com/rthor/api-see-my-shifts"
   branch = "master"
 

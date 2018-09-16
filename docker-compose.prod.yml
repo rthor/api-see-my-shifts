@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:10-alpine
+    ports:
+      - 5432:5432
+    networks:
+      - postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+  api:
+    build: .
+    image: main
+    environment:
+      - PORT=5000       # This is the port gin will serve on
+      - PG_HOST=postgres
+      - PG_DB=shifts
+      - PG_USER=postgres
+      - PG_PASSWORD=mysecretpassword
+      - PG_PORT=5432
+    depends_on:
+      - postgres
+    ports:
+      - 5000:5000
+    networks:
+      - postgres
+    restart: always
+
+  # email/password for admin dasboard:
+  # pgadmin4@pgadmin.org / admin
+  pgadmin:
+    links:
+      - postgres:postgres
+    image: fenglc/pgadmin4
+    ports:
+      - "5050:5050"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
